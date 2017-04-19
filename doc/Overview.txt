@@ -1,0 +1,49 @@
+My primary concern during design was space complexity, as using Data.Sequence
+as a string store would handle time complexity of the append and delete
+functions. Below is the structure of Editor:
+
+data Editor = Editor
+  { store_edt :: Seq Char
+  , undo_edt  :: [Edit]
+  , out_handle :: Handle
+  } deriving (Show,Eq)
+
+note the value of out_handle. This serves two functions.
+  (1) This Handle is used by the print function to execute any print command
+      as it happens. The alternative would be to store print actions and then
+      execute them in sequence when the entire computation has concluded.
+      I chose to interleave (see docs/Design.txt) print actions.
+      in order to reduce the memory footprint.
+  (2) The value of Handle can be any valid file handle.
+      This proved useful during testing (see docs/Testing.txt)
+
+My second concern was how to express the undo command.
+Here's the Edit type:
+
+data Edit = Append (Seq Char) | Delete Int deriving (Show,Eq)
+
+So, when an Append is executed, the opposing Delete is pushed onto
+undo_edt :: [Edit]. Similarly, the same happens for a Delete command.
+
+My third concern was generality and expandabilty. Although this is a toy,
+I wanted to demonstrate that these concernes are often in my thoughts as I
+ design. For example:
+
+   (1) out_handle :: Handle allows for any arbitrary file handle to be used
+       for output
+   (2) the editor driver itself takes a handle for input, which facilitated
+       testing.
+   (2) Storing commands as key/value pairs with the key being the numeric
+       command and the value being the function it maps to.
+       Expanding functionality is almost as easy as adding another key/value
+       pair to the appropriate value.
+   (3) The (.|) made it easy to tweak the pipeline, and so suggests easy
+       expansion.
+
+There is a tradeoff when it comes to generality. I try not to spend too much
+time on this and let the generalizations arise organically
+throughout development.
+
+My fourth concern was testing and benchmarking.
+I have some comments in docs/Benchmarking.txt
+I also have some comments concerning testing in docs/Testing.txt

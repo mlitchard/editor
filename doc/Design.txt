@@ -1,0 +1,20 @@
+Design doc
+
+src-exe/Main.hs - grabs the first line, then passes the number that string
+                  casts to. Editor is held in a StateT, but we
+                  don't need the return value. This is easily changed.
+
+src/Editor.hs - editor drives the process with a conduit pipeline.
+                the conduit libraries allow efficient streaming,
+                and easy interleaving. This was useful for the print command.
+
+src/Actions.hs - This is where the functions that map to each 
+                 editor command are kept, with their corresponding stateful
+                 functions.
+
+The price for conduits is wrapping one's head around the concepts involved,
+and a huge set of choices. Some function names are obfuscating. 
+For example, isolate. 
+
+Alternatively, I could have stored print actions as a field in Editor.
+This would have blown up memory usage, which I was trying to keep under control.

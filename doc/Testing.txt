@@ -1,0 +1,15 @@
+Testing
+
+Two types of testing are done here:
+
+(1) integrated testing
+(2) property testing
+
+Integrated testing: 
+  These use pre-created data sets to increase confidence that the system
+  works as intended. They are meant to test the system as a whole.
+
+Property tests:
+  These test two of the editor functions, append and delete, specifically.
+  I use QuickCheck to pass through random data to insure
+  that append appends, and delete deletes.

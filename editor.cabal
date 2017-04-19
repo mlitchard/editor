@@ -1,0 +1,93 @@
+name:                editor
+version:             0.1.0.0
+-- synopsis:
+-- description:
+
+license:             ISC
+license-file:        LICENSE
+author:              Michael Litchard
+maintainer:          michael@schmong.org
+copyright:           © 2017 Michael Litchard
+homepage:            https://github.com/mlitchard/editor
+bug-reports:         https://github.com/mlitchard/editor/issues
+
+category:            Test
+build-type:          Simple
+stability:           alpha (experimental)
+cabal-version:       >=1.10
+
+extra-source-files:
+  README.md
+  stack.yaml
+
+source-repository head
+  type:     git
+  location: https://github.com/mlitchard/editor
+
+library
+  default-language:  Haskell2010
+  ghc-options:       -Wall -Werror -O2
+  default-extensions: NoImplicitPrelude,OverloadedStrings
+  hs-source-dirs:    src
+  exposed-modules:   Editor
+                   , Actions
+                   , Types
+  build-depends:     base >= 4.8 && < 5
+                   , basic-prelude
+                   , bytestring
+                   , conduit
+                   , conduit-combinators
+                   , conduit-extra
+                   , containers
+                   , mtl
+                   , resourcet
+                   , safe
+                   , text
+                   , transformers
+
+executable editor-exe
+  default-language:  Haskell2010
+  ghc-options:       -Wall -Werror -O2 -threaded -rtsopts -with-rtsopts=-N
+  default-extensions: NoImplicitPrelude,OverloadedStrings
+  hs-source-dirs:    src-exe
+  main-is:           Main.hs
+  build-depends:     base >= 4.8 && < 5
+                   , basic-prelude
+                   , bytestring
+                   , mtl
+                   , editor
+
+test-suite editor-test
+  type:              exitcode-stdio-1.0
+  default-language:  Haskell2010
+  ghc-options:       -Wall -Werror -O2 -threaded -rtsopts -with-rtsopts=-N
+  default-extensions: NoImplicitPrelude,OverloadedStrings
+  hs-source-dirs:    src-test
+  main-is:           Main.hs
+  other-modules:     UnitTests.UnitTests
+                   , UnitTests.Scaffolding
+                   , PropTests
+  build-depends:     base >= 4.8 && < 5
+                   , basic-prelude
+                   , containers
+                   , directory
+                   , mtl
+                   , hspec
+                   , QuickCheck
+                   , text
+                   , editor
+
+benchmark editor-benchmark
+  type:              exitcode-stdio-1.0
+  default-language:  Haskell2010
+  ghc-options:       -Wall -Werror -O2 -threaded -rtsopts -with-rtsopts=-N
+  default-extensions: NoImplicitPrelude,OverloadedStrings
+  hs-source-dirs:    src-benchmark
+  main-is:           Main.hs
+  build-depends:     base >= 4.8 && < 5
+                   , basic-prelude
+                   , criterion >= 1.1
+                   , directory
+                   , mtl
+                   , text
+                   , editor
