@@ -1,3 +1,4 @@
+[![BuildStatus](https://travis-ci.org/mlitchard/editor.svg?branch=master)](https://travis-ci.org/mlitchard/editor)
 editor
 ==========
 This is an implementation of HackerRank Challenge
